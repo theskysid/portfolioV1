@@ -1,0 +1,9 @@
+body {
+    background-image: url('/portfolioV1/Assests/goku-2020-new-be.jpg'); /* Path to your image */
+    background-size: cover;  /* Ensures it covers the entire page */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents tiling */
+    background-attachment: fixed; /* Keeps it fixed on scroll */
+
+    padding-top: 80px;
+}
