@@ -36,6 +36,7 @@ body {
 
 .top-navbar a:hover {
   background-color: #575757;
+  color: red;
 }
 
 .container {
@@ -66,23 +67,30 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center; /* Centers content vertically */
-  width: 100%; /* Ensures full width */
 }
 
 .right-navbar {
-  background-color: transparent;
-  overflow: hidden;
-  padding: 10px;
+    position: fixed;   /* Makes it stay in place */
+    top: 50%;         /* Centers it vertically */
+    right: 30px;      /* Adjust distance from right */
+    transform: translateY(-50%); /* Perfect vertical centering */
+    background-color: transparent;
+    padding: 10px;
 }
 
 .right-navbar a {
-  display: block;
-  text-align: right;
-  padding: 16px 20px;
-  color: white;
+    display: block;
+    text-align: right;
+    padding: 16px 20px;
+    color: white;
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
+
 .right-navbar a:hover {
-  size-adjust: 10%;
+    transform: scale(1.2) translateX(-10px); /* Increase size and move left */
+    color: red; /* Change color on hover */
+    background-color: #575757;
 }
 
 .press-start-2p-regular {
@@ -122,4 +130,13 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: moveGradient 10s infinite linear; /* Smooth continuous left-to-right motion */
+}
+
+.text-hover {
+  transition: transform 0.3s ease-in-out;
+  display: inline-block;
+}
+
+.text-hover:hover {
+  transform: scale(1.2) translateX(-10px); /* Increase size and move left */
 }
