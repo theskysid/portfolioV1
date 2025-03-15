@@ -1,28 +1,125 @@
+* {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
 body {
-    background-image: url('/portfolioV1/Assests/goku-2020-new-be.jpg'); /* Path to your image */
-    background-size: cover;  /* Ensures it covers the entire page */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents tiling */
-    background-attachment: fixed; /* Keeps it fixed on scroll */
+  background-image: url("/Assests/goku-2020-new-be.jpg"); /* Path to your image */
+  background-size: cover; /* Ensures it covers the entire page */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents tiling */
+  background-attachment: fixed; /* Keeps it fixed on scroll */
 
-    padding-top: 20px;
+  padding-top: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 5px;
+
+  color: aliceblue;
 }
 
-.navbar {
-   background-color: transparent;
-   overflow: hidden;
-   padding: 10px;
-}
-        
-.navbar a {
-   float: left;
-   display: block;
-   color: white;
-   text-align: center;
-   padding: 14px 20px;
-   text-decoration: none;
+.top-navbar {
+  background-color: #ddd;
+  font-weight: bold;
+  background-color: transparent;
+  overflow: hidden;
 }
 
-.navbar a:hover {
-   background-color: #575757;
+.top-navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 16px 20px;
+  text-decoration: none;
+}
+
+.top-navbar a:hover {
+  background-color: #575757;
+}
+
+.container {
+  display: flex;
+  padding: 10px;
+}
+
+.main-content {
+  flex: 2;
+  padding: 20px;
+  border: 2px solid rgb(255, 255, 255);
+  margin-right: 10px;
+  display: flex;
+  align-items: center; /* Centers content vertically */
+  text-align: left;
+  height: 100vh; /* Ensures it takes full height */
+}
+.sidebar {
+  flex: 1;
+  border: 2px solid rgb(255, 255, 255);
+  padding: 10px;
+  display: flex;
+  align-items: center; /* Centers sidebar-box vertically */
+  height: 100vh; /* Ensures sidebar takes full viewport height */
+}
+
+.sidebar-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers content vertically */
+  width: 100%; /* Ensures full width */
+}
+
+.right-navbar {
+  background-color: transparent;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.right-navbar a {
+  display: block;
+  text-align: right;
+  padding: 16px 20px;
+  color: white;
+}
+.right-navbar a:hover {
+  size-adjust: 10%;
+}
+
+.press-start-2p-regular {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+#name {
+  font-size: 60px;
+  color: aliceblue;
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: -300% 50%;
+  } /* Start off-screen to the left */
+  100% {
+    background-position: 0% 50%;
+  } /* Move fully to the right */
+}
+
+.animated-gradient-text {
+  font-size: 30px;
+  font-weight: bold;
+  background: linear-gradient(
+    to right,
+    red,
+    orange,
+    yellow,
+    green,
+    cyan,
+    blue,
+    violet,
+    red
+  );
+  background-size: 300% 100%; /* Extra-wide background for smooth animation */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: moveGradient 10s infinite linear; /* Smooth continuous left-to-right motion */
 }

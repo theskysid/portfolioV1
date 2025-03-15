@@ -1,0 +1,68 @@
+body {
+    background-image: url('/Assests/goku-2020-new-be.jpg'); /* Path to your image */
+    background-size: cover;  /* Ensures it covers the entire page */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents tiling */
+    background-attachment: fixed; /* Keeps it fixed on scroll */
+
+    padding-top: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+
+    color: aliceblue;
+}
+
+.box {
+   display: flex;
+   justify-content: space-between;
+   align-content: center;
+}
+
+.top-navbar {
+   background-color: transparent;
+   overflow: hidden;
+   padding: 10px;
+}
+        
+.top-navbar a {
+   float: left;
+   display: block;
+   color: white;
+   text-align: center;
+   padding: 16px 20px;
+   text-decoration: none;
+}
+
+.top-navbar a:hover {
+   background-color: #575757;
+}
+
+.right-navbar {
+   background-color: transparent;
+   overflow: hidden;
+   padding: 10px;
+}
+
+        
+.right-navbar a {
+   float: block;
+   display: block;
+   color: white;
+   text-align: center;
+   padding: 16px 20px;
+   text-decoration: none;
+}
+
+.right-navbar a:hover {
+   background-color: #575757;
+}
+.press-start-2p-regular {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+.name {
+   font-size: 60px;
+   color: aliceblue;
+}
