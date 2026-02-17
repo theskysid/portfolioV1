@@ -1,0 +1,113 @@
+.contact-section {
+    padding-bottom: 80px;
+}
+
+.contact-content {
+    padding: 60px 40px;
+    border-radius: 32px;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+}
+
+.contact-title {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    background: linear-gradient(to bottom, #fff, #999);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.contact-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin: 0 auto 48px;
+}
+
+.email-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 2rem;
+    /* Big */
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
+    margin-bottom: 48px;
+}
+
+.email-link:hover {
+    background: var(--text-primary);
+    color: var(--bg-dark);
+    transform: translateY(-4px);
+}
+
+.email-link:hover .arrow-icon {
+    transform: translate(4px, -4px);
+}
+
+.arrow-icon {
+    transition: transform 0.3s ease;
+}
+
+.social-grid {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.social-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.social-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .contact-title {
+        font-size: 2.2rem;
+    }
+
+    .email-link {
+        font-size: 1.2rem;
+        padding: 12px 24px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .contact-content {
+        padding: 40px 24px;
+    }
+
+    .social-grid {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .social-card {
+        justify-content: center;
+        width: 100%;
+    }
+}

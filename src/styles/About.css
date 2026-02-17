@@ -1,0 +1,79 @@
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+}
+
+.timeline {
+    position: relative;
+    border-left: 3px solid #e8eaed;
+    padding-left: 30px;
+}
+
+.timeline-item {
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -39px;
+    top: 5px;
+    width: 15px;
+    height: 15px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    border: 3px solid white;
+}
+
+.school-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.degree {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 5px;
+}
+
+.ed-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #80868b;
+    margin-bottom: 5px;
+}
+
+.score {
+    font-weight: 500;
+    color: var(--color-primary);
+}
+
+.achievements-list {
+    list-style: none;
+}
+
+.achievements-list li {
+    margin-bottom: 15px;
+    padding-left: 25px;
+    position: relative;
+    color: var(--color-text-secondary);
+}
+
+.achievements-list li::before {
+    content: '🏆';
+    position: absolute;
+    left: 0;
+    top: 2px;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}

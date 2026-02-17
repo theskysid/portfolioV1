@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Core Colors - Cosmic Dark functionality */
+  --bg-dark: #030303;
+  --bg-surface: #0a0a0a;
+  --bg-card: rgba(20, 20, 20, 0.6);
+
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-muted: #525252;
+
+  /* Accents */
+  --accent-primary: #3b82f6;
+  /* Electric Blue */
+  --accent-glow: rgba(59, 130, 246, 0.5);
+  --accent-purple: #8b5cf6;
+
+  /* Glassmorphism */
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 16px;
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+  /* Typography */
+  --font-main: 'Inter', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Utilities */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.container {
+  max-width: 1400px;
+  /* Wider for Bento Grid */
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 100px 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-surface);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}

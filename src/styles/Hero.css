@@ -1,0 +1,130 @@
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-top: 80px;
+    /* Offset for header */
+}
+
+/* Ensure hero content is above background */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+    color: var(--accent-primary);
+    font-weight: 500;
+    backdrop-filter: blur(4px);
+}
+
+.hero-title {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    line-height: 1.1;
+    font-weight: 700;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+}
+
+.hero-title .highlight {
+    background: linear-gradient(135deg, #fff 0%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.hero-title .subtitle-text {
+    font-size: 3rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    display: block;
+    margin-top: 8px;
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+.hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.btn {
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: var(--text-primary);
+    color: var(--bg-dark);
+    border: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+}
+
+.social-links {
+    display: flex;
+    gap: 16px;
+}
+
+.social-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    background: var(--glass-border);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+    border-color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .hero-title .subtitle-text {
+        font-size: 1.8rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
