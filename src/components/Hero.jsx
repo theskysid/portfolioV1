@@ -1,6 +1,6 @@
 import { resumeData } from '../data/resume';
 import { motion } from 'framer-motion';
-import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
+import { ArrowRight, Github, Linkedin, Mail, FileText } from 'lucide-react';
 import '../styles/Hero.css';
 
 const Hero = () => {
@@ -46,14 +46,17 @@ const Hero = () => {
                         View Projects <ArrowRight size={18} />
                     </button>
                     <div className="social-links">
-                        <a href={resumeData.personalInfo.social?.github || '#'} target="_blank" rel="noopener noreferrer" className="social-btn">
+                        <a href={resumeData.personalInfo.links?.github || '#'} target="_blank" rel="noopener noreferrer" className="social-btn">
                             <Github size={24} />
                         </a>
-                        <a href={resumeData.personalInfo.social?.linkedin || '#'} target="_blank" rel="noopener noreferrer" className="social-btn">
+                        <a href={resumeData.personalInfo.links?.linkedin || '#'} target="_blank" rel="noopener noreferrer" className="social-btn">
                             <Linkedin size={24} />
                         </a>
                         <a href={`mailto:${resumeData.personalInfo.email}`} className="social-btn">
                             <Mail size={24} />
+                        </a>
+                        <a href="https://bit.ly/sidrastogi" target="_blank" rel="noopener noreferrer" className="social-btn" title="Resume">
+                            <FileText size={24} />
                         </a>
                     </div>
                 </motion.div>

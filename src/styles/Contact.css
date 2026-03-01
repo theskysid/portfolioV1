@@ -30,18 +30,37 @@
 .email-link {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
     font-size: 2rem;
-    /* Big */
     font-weight: 600;
     color: var(--text-primary);
     text-decoration: none;
-    padding: 16px 32px;
+    padding: 20px 40px;
     border-radius: 100px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--glass-border);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+/* Shine effect for main contact button */
+.email-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.5s ease;
+}
+
+.email-link:hover::before {
+    left: 100%;
 }
 
 .email-link:hover {
@@ -110,4 +129,37 @@
         justify-content: center;
         width: 100%;
     }
+}
+
+/* Light theme overrides */
+[data-theme="light"] .contact-content {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.01) 100%);
+}
+
+[data-theme="light"] .contact-title {
+    background: linear-gradient(to bottom, #1a1a2e, #555);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+[data-theme="light"] .email-link {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.01));
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .email-link::before {
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.06), transparent);
+}
+
+[data-theme="light"] .email-link:hover {
+    background: var(--text-primary);
+    color: #fff;
+}
+
+[data-theme="light"] .social-card {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="light"] .social-card:hover {
+    background: rgba(0, 0, 0, 0.05);
 }

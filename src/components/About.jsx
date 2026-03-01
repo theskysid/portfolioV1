@@ -5,8 +5,8 @@ const About = () => {
     return (
         <section id="about" className="section about-section">
             <div className="container">
-                <div className="about-grid">
-                    <div className="education-column">
+                <div className="about-stacked">
+                    <div className="education-block">
                         <h2 className="section-title">Education</h2>
                         <div className="timeline">
                             {resumeData.education.map((edu, index) => (
@@ -23,15 +23,17 @@ const About = () => {
                         </div>
                     </div>
 
-                    <div className="achievements-column">
+                    <div className="achievements-block">
                         <h2 className="section-title">Achievements</h2>
                         <ul className="achievements-list">
                             {resumeData.achievements.map((item, index) => (
-                                <li key={index}>{item.replace("**", "").replace("**", "")}</li>
-                                /* Simple strip of markdown bold if present, though data is clean */
+                                <li key={index}>{item}</li>
                             ))}
                         </ul>
-                        <h2 className="section-title" style={{ marginTop: '40px' }}>Certificates</h2>
+                    </div>
+
+                    <div className="certificates-block">
+                        <h2 className="section-title">Certificates</h2>
                         <ul className="achievements-list">
                             {resumeData.certificates.map((item, index) => (
                                 <li key={index}>{item}</li>

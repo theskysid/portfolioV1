@@ -48,13 +48,12 @@ export const resumeData = {
             link: "https://github.com/theskysid" // Assuming provided github link is base, specific repo not linked in resume text directly but implies GitHub presence
         },
         {
-            title: "AI Web Cleaner: Popup & Dark Pattern Detection System",
-            tech: ["Python", "Machine Learning", "Computer Vision", "DOM Analysis"],
+            title: "Library Management System",
+            tech: ["Java", "Spring Boot", "Spring Security", "JPA", "PostgreSQL", "JWT"],
             description: [
-                "Developed an AI-driven system to detect intrusive popups, ads, and manipulative UI dark patterns by analyzing webpage DOM structure and visual layout.",
-                "Engineered behavioral features such as viewport coverage, scroll locking, opacity, CTA dominance, and close-button visibility to train supervised ML classifiers.",
-                "Implemented screenshot-based computer vision analysis to identify visually deceptive overlays and mismatches between rendered UI and underlying HTML intent.",
-                "Built an explainable classification pipeline that outputs confidence scores and feature importance to justify UI manipulation detection decisions."
+                "Built RESTful APIs for book cataloging, lending workflows, and user management using a clean layered architecture.",
+                "Integrated Spring Security with JWT to implement role-based access control for users and administrators.",
+                "Optimized backend performance using JPA and efficient query design, improving response time and overall scalability."
             ],
             link: "https://github.com/theskysid"
         }
