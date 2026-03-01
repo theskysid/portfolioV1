@@ -58,9 +58,11 @@
     font-weight: 500;
     color: var(--text-primary);
     white-space: nowrap;
-    background: rgba(255, 255, 255, 0.03);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .skill-pill:hover {
@@ -75,4 +77,15 @@
         padding: 8px 20px;
         font-size: 0.9rem;
     }
+}
+
+/* Light theme overrides */
+[data-theme="light"] .skill-pill {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.04) 100%);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .skill-pill:hover {
+    background: rgba(37, 99, 235, 0.06);
 }

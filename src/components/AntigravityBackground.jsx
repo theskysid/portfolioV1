@@ -138,14 +138,20 @@ const AntigravityBackground = () => {
         let swarmX = width / 2;
         let swarmY = height / 2;
 
+        const getParticleColor = () => {
+            const theme = document.documentElement.getAttribute('data-theme');
+            return theme === 'light'
+                ? `rgba(37, 99, 235, ALPHA)`   // deeper blue for light bg
+                : `rgba(0, 150, 255, ALPHA)`;   // glowing cyan/blue for dark bg
+        };
+
         const initParticles = () => {
             particles = [];
-            // Expanded radius for "Massive" feel
             const baseRadius = Math.max(width, height) * 0.4;
+            const color = getParticleColor();
 
             for (let i = 0; i < PARTICLE_COUNT; i++) {
-                // Irregular Swarm Shape
-                const r = baseRadius * (0.2 + Math.random() * 0.8); // Fill more volume
+                const r = baseRadius * (0.2 + Math.random() * 0.8);
                 const theta = Math.random() * Math.PI * 2;
                 const phi = Math.acos((Math.random() * 2) - 1);
 
@@ -153,17 +159,20 @@ const AntigravityBackground = () => {
                 let y = r * Math.sin(phi) * Math.sin(theta);
                 let z = r * Math.cos(phi);
 
-                // Flatten/Distort
-                x *= 1.8; // Very wide
+                x *= 1.8;
                 y *= 1.2;
-                z *= 1.5; // Deep
-
-                // Glowing Cyan/Blue
-                const color = `rgba(0, 150, 255, ALPHA)`;
+                z *= 1.5;
 
                 particles.push(new Particle3D(x, y, z, color));
             }
         };
+
+        // Re-init particles on theme change
+        const themeObserver = new MutationObserver(() => {
+            const newColor = getParticleColor();
+            particles.forEach(p => p.color = newColor);
+        });
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
         const resizeCanvas = () => {
             width = window.innerWidth;
@@ -241,6 +250,7 @@ const AntigravityBackground = () => {
         return () => {
             window.removeEventListener('resize', resizeCanvas);
             cancelAnimationFrame(animationFrameId);
+            themeObserver.disconnect();
         };
     }, []);
 

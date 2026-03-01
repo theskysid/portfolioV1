@@ -1,11 +1,19 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon, FileText } from 'lucide-react';
 import '../styles/Header.css';
 
 const Header = () => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem('theme') || 'light';
+    });
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    }, [theme]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -21,6 +29,10 @@ const Header = () => {
         if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
         }
+    };
+
+    const toggleTheme = () => {
+        setTheme(prev => prev === 'dark' ? 'light' : 'dark');
     };
 
     const navItems = [
@@ -51,11 +63,32 @@ const Header = () => {
                                 </button>
                             </li>
                         ))}
+                        <li>
+                            <a href="https://bit.ly/sidrastogi" target="_blank" rel="noopener noreferrer" className="nav-resume-link">
+                                <FileText size={16} /> Resume
+                            </a>
+                        </li>
                     </ul>
                 </nav>
 
-                <div className="mobile-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-                    {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                <div className="header-actions">
+                    <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+                        <AnimatePresence mode="wait" initial={false}>
+                            {theme === 'dark' ? (
+                                <motion.div key="sun" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                                    <Sun size={20} />
+                                </motion.div>
+                            ) : (
+                                <motion.div key="moon" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                                    <Moon size={20} />
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </button>
+
+                    <div className="mobile-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                        {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    </div>
                 </div>
             </div>
 
@@ -76,6 +109,11 @@ const Header = () => {
                                     </button>
                                 </li>
                             ))}
+                            <li>
+                                <a href="https://bit.ly/sidrastogi" target="_blank" rel="noopener noreferrer" className="nav-resume-link">
+                                    <FileText size={16} /> Resume
+                                </a>
+                            </li>
                         </ul>
                     </motion.div>
                 )}

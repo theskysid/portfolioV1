@@ -19,20 +19,47 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: rgba(20, 20, 20, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
     /* Glass panel styles inherited from index.css via class */
 }
 
+/* Glow effect using pseudo-element */
+.bento-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent 50%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
 .bento-item:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.bento-item:hover::after {
+    opacity: 1;
+    background: linear-gradient(135deg, var(--accent-primary), transparent 60%);
 }
 
 .bento-content {
-    padding: 24px;
+    padding: 28px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    z-index: 2;
 }
 
 .bento-icon {
@@ -82,6 +109,30 @@
     .col-span-2,
     .col-span-3 {
         grid-column: span 1;
-        /* Reset on mobile */
     }
+}
+
+/* Light theme overrides */
+[data-theme="light"] .bento-item {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .bento-item::after {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.04), transparent 50%);
+}
+
+[data-theme="light"] .bento-item:hover {
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.12);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .bento-item:hover::after {
+    background: linear-gradient(135deg, var(--accent-primary), transparent 60%);
+    opacity: 0.3;
+}
+
+[data-theme="light"] .bento-header {
+    background: rgba(0, 0, 0, 0.02);
 }

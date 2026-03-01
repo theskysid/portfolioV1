@@ -8,10 +8,8 @@
     justify-content: center;
     padding: 0 24px;
     pointer-events: none;
-    /* Let clicks pass through outside the pill */
 }
 
-/* The actual glass container */
 .header-content {
     pointer-events: auto;
     display: flex;
@@ -19,19 +17,31 @@
     align-items: center;
     padding: 12px 32px;
     border-radius: 100px;
-    /* Pill shape */
-    background: rgba(10, 10, 10, 0.4);
-    /* Transparent base for glass effect */
-    /* .glass-panel class handles blur and borders - ensure index.css is loaded */
+    background: rgba(10, 10, 10, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     width: 100%;
     max-width: 900px;
-    /* Limit width for the floating look */
     transition: all 0.3s ease;
 }
 
+[data-theme="light"] .header-content {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+}
+
 .header.scrolled .header-content {
-    background: rgba(5, 5, 5, 0.7);
+    background: rgba(5, 5, 5, 0.85);
     padding: 10px 32px;
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="light"] .header.scrolled .header-content {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
 .logo {
@@ -48,6 +58,7 @@
 .desktop-nav ul {
     display: flex;
     gap: 32px;
+    align-items: center;
 }
 
 .desktop-nav button {
@@ -56,28 +67,79 @@
     font-weight: 500;
     transition: all 0.3s ease;
     position: relative;
+    opacity: 0.8;
 }
 
 .desktop-nav button:hover {
     color: var(--text-primary);
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
 }
 
-.desktop-nav button::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: var(--accent-primary);
-    transition: width 0.3s ease;
-    box-shadow: 0 0 8px var(--accent-primary);
+[data-theme="light"] .desktop-nav button:hover {
+    text-shadow: none;
 }
 
-.desktop-nav button:hover::after {
-    width: 100%;
+/* Resume link in nav */
+.nav-resume-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.nav-resume-link:hover {
+    color: var(--text-primary);
+    opacity: 1;
+}
+
+/* Header actions (theme toggle + mobile toggle) */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    transform: scale(1.05);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 12px var(--accent-glow);
+}
+
+[data-theme="light"] .theme-toggle {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] .theme-toggle:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--text-primary);
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
 }
 
 .mobile-toggle {
@@ -102,6 +164,11 @@
     z-index: 999;
 }
 
+[data-theme="light"] .mobile-menu {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 .mobile-menu ul {
     display: flex;
     flex-direction: column;
@@ -122,6 +189,18 @@
     color: var(--text-primary);
     background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
+}
+
+[data-theme="light"] .mobile-menu button:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.mobile-menu .nav-resume-link {
+    font-size: 1.2rem;
+    justify-content: center;
+    padding: 12px;
+    width: 100%;
+    display: flex;
 }
 
 @media (max-width: 768px) {

@@ -1,12 +1,20 @@
-.about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+.about-stacked {
+    display: flex;
+    flex-direction: column;
     gap: 60px;
+}
+
+.education-block,
+.achievements-block,
+.certificates-block {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .timeline {
     position: relative;
-    border-left: 3px solid #e8eaed;
+    border-left: 3px solid var(--accent-primary);
     padding-left: 30px;
 }
 
@@ -22,20 +30,21 @@
     top: 5px;
     width: 15px;
     height: 15px;
-    background: var(--color-primary);
+    background: var(--accent-primary);
     border-radius: 50%;
-    border: 3px solid white;
+    border: 3px solid var(--bg-dark);
+    box-shadow: 0 0 10px var(--accent-glow);
 }
 
 .school-name {
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--color-text);
+    color: var(--text-primary);
 }
 
 .degree {
     font-size: 1.1rem;
-    color: var(--color-text-secondary);
+    color: var(--text-secondary);
     margin-bottom: 5px;
 }
 
@@ -43,24 +52,26 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.9rem;
-    color: #80868b;
+    color: var(--text-muted);
     margin-bottom: 5px;
 }
 
 .score {
     font-weight: 500;
-    color: var(--color-primary);
+    color: var(--accent-primary);
 }
 
 .achievements-list {
     list-style: none;
+    max-width: 800px;
 }
 
 .achievements-list li {
     margin-bottom: 15px;
     padding-left: 25px;
     position: relative;
-    color: var(--color-text-secondary);
+    color: var(--text-secondary);
+    line-height: 1.6;
 }
 
 .achievements-list li::before {
@@ -71,9 +82,12 @@
     font-size: 1rem;
 }
 
+.certificates-block .achievements-list li::before {
+    content: '📜';
+}
+
 @media (max-width: 768px) {
-    .about-grid {
-        grid-template-columns: 1fr;
+    .about-stacked {
         gap: 40px;
     }
 }
