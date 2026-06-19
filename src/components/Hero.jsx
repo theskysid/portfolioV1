@@ -1,68 +1,79 @@
-import { resumeData } from '../data/resume';
-import { motion } from 'framer-motion';
-import { ArrowRight, Github, Linkedin, Mail, FileText } from 'lucide-react';
-import '../styles/Hero.css';
+import { motion } from "framer-motion";
+import FireGlow from "./FireGlow";
 
-const Hero = () => {
-    return (
-        <section id="hero" className="hero-section">
-            <div className="container hero-content">
-                <motion.div
-                    className="hero-badge"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    <span>👋 Welcome to my universe</span>
-                </motion.div>
+/* ── Editable Constants ── */
+const NAME = "SIDDHANT RASTOGI";
+const TAGLINE = "Backend Engineer & Full-Stack Developer";
+const SUBTITLE = "Building Robust Backends & Scalable Applications.";
+const BADGE = "Computer Science Student (AI & ML) · ABES Engineering College";
 
-                <motion.h1
-                    className="hero-title"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                    I'm <span className="highlight">{resumeData.personalInfo.name}</span>
-                    <br />
-                    <span className="subtitle-text">{resumeData.personalInfo.title}</span>
-                </motion.h1>
+export default function Hero() {
+  return (
+    <section
+      id="hero"
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-dark"
+    >
+      {/* Fire glow effect */}
+      <FireGlow intensity={0.7} position="bottom" />
 
-                <motion.p
-                    className="hero-description"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                >
-                    {resumeData.summary}
-                </motion.p>
+      {/* Content */}
+      <div className="relative z-10 px-4 md:px-8 lg:px-12 pt-24 pb-20 w-full">
+        {/* Dot + Badge */}
+        <motion.div
+          className="flex items-center gap-3 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <span className="dot-motif" />
+          <span className="text-mono-label text-white/50">{BADGE}</span>
+        </motion.div>
 
-                <motion.div
-                    className="hero-actions"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.5 }}
-                >
-                    <button className="btn btn-primary" onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}>
-                        View Projects <ArrowRight size={18} />
-                    </button>
-                    <div className="social-links">
-                        <a href={resumeData.personalInfo.links?.github || '#'} target="_blank" rel="noopener noreferrer" className="social-btn">
-                            <Github size={24} />
-                        </a>
-                        <a href={resumeData.personalInfo.links?.linkedin || '#'} target="_blank" rel="noopener noreferrer" className="social-btn">
-                            <Linkedin size={24} />
-                        </a>
-                        <a href={`mailto:${resumeData.personalInfo.email}`} className="social-btn">
-                            <Mail size={24} />
-                        </a>
-                        <a href="https://bit.ly/sidrastogi" target="_blank" rel="noopener noreferrer" className="social-btn" title="Resume">
-                            <FileText size={24} />
-                        </a>
-                    </div>
-                </motion.div>
-            </div>
-        </section>
-    );
-};
+        {/* Giant Name */}
+        <motion.h1
+          className="text-huge text-white leading-[0.85] mb-6 glitch-hover select-none"
+          data-text={NAME}
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+          style={{
+            marginLeft: "-0.04em",
+            marginRight: "-0.04em",
+          }}
+        >
+          {NAME}
+        </motion.h1>
 
-export default Hero;
+        {/* Tagline */}
+        <motion.div
+          className="max-w-2xl"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.9 }}
+        >
+          <p className="text-xl md:text-2xl font-medium text-white/90 mb-2 font-[var(--font-heading)]">
+            {TAGLINE}
+          </p>
+          <p className="text-base md:text-lg text-white/50 font-[var(--font-body)]">
+            {SUBTITLE}
+          </p>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 0.6 }}
+        >
+          <span className="text-mono-label text-white/30">SCROLL</span>
+          <motion.div
+            className="w-[1px] h-8 bg-white/20"
+            animate={{ scaleY: [1, 0.4, 1] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+      </div>
+    </section>
+  );
+}
