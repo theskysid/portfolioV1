@@ -46,13 +46,16 @@
   ::-webkit-scrollbar {
     width: 6px;
   }
+
   ::-webkit-scrollbar-track {
     background: var(--color-dark);
   }
+
   ::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.15);
     border-radius: 3px;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
   }
@@ -60,6 +63,12 @@
   /* Anchor scroll offset for fixed nav */
   section[id] {
     scroll-margin-top: 80px;
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+    cursor: none;
   }
 }
 
@@ -109,6 +118,7 @@
   .glitch-hover {
     position: relative;
   }
+
   .glitch-hover::before,
   .glitch-hover::after {
     content: attr(data-text);
@@ -121,16 +131,19 @@
     transition: opacity 0.3s ease;
     pointer-events: none;
   }
+
   .glitch-hover::before {
     color: #ff0040;
     z-index: -1;
     transform: translate(2px, -1px);
   }
+
   .glitch-hover::after {
     color: #00ffff;
     z-index: -1;
     transform: translate(-2px, 1px);
   }
+
   .glitch-hover:hover::before,
   .glitch-hover:hover::after {
     opacity: 0.7;
@@ -138,6 +151,7 @@
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
+
     .glitch-hover::before,
     .glitch-hover::after {
       display: none !important;

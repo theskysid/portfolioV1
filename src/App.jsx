@@ -8,6 +8,7 @@ import Skills from "./components/Skills";
 import EducationCerts from "./components/EducationCerts";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import CustomCursor from "./components/CustomCursor";
 
 export default function App() {
   const alreadySeen = typeof window !== "undefined" && sessionStorage.getItem("portfolio-intro-seen");
@@ -24,6 +25,7 @@ export default function App() {
       >
         <Nav />
         <main>
+          <CustomCursor />
           <Hero />
           <About />
           <Projects />
