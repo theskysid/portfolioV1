@@ -13,10 +13,29 @@ const LOGO_TEXT = "SIDDHANT";
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isLightMode, setIsLightMode] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 100);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+
+      const sections = document.querySelectorAll("section");
+      let currentIsLight = false;
+      const navCenter = 40;
+
+      sections.forEach((sec) => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top <= navCenter && rect.bottom >= navCenter) {
+          if (sec.classList.contains("bg-light")) {
+            currentIsLight = true;
+          }
+        }
+      });
+      setIsLightMode(currentIsLight);
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Trigger once on mount
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -29,10 +48,12 @@ export default function Nav() {
 
   return (
     <motion.nav
-      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 transition-all duration-500 ${
-        scrolled
-          ? "bg-dark/80 backdrop-blur-xl border-b border-white/5"
-          : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 transition-all duration-300 ${
+        !scrolled
+          ? "bg-transparent text-white"
+          : isLightMode
+          ? "bg-light/90 backdrop-blur-xl text-dark"
+          : "bg-dark/80 backdrop-blur-xl text-white"
       }`}
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -42,9 +63,17 @@ export default function Nav() {
       <a
         href="#hero"
         onClick={(e) => smoothScroll(e, "#hero")}
-        className="text-white font-bold text-lg tracking-[0.2em] font-[var(--font-heading)] hover:text-accent-orange transition-colors duration-300"
+        className="font-bold text-lg tracking-[0.2em] font-[var(--font-heading)] hover:text-accent-orange transition-colors duration-300 relative flex items-center"
       >
-        {LOGO_TEXT}
+        {scrolled ? (
+          <motion.span layoutId="logo" className="inline-block" transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
+            {LOGO_TEXT}
+          </motion.span>
+        ) : (
+          <span className="opacity-0 inline-block pointer-events-none">
+            {LOGO_TEXT}
+          </span>
+        )}
       </a>
 
       {/* Desktop Nav */}
@@ -54,7 +83,7 @@ export default function Nav() {
             key={item.href}
             href={item.href}
             onClick={(e) => smoothScroll(e, item.href)}
-            className="text-mono-label text-white/60 hover:text-white transition-colors duration-300"
+            className="text-mono-label opacity-60 hover:opacity-100 transition-opacity duration-300"
           >
             {item.label}
           </a>
@@ -69,15 +98,15 @@ export default function Nav() {
         id="nav-hamburger"
       >
         <motion.span
-          className="block w-6 h-[2px] bg-white"
+          className={`block w-6 h-[2px] ${isLightMode && scrolled ? "bg-dark" : "bg-white"}`}
           animate={{ rotate: mobileOpen ? 45 : 0, y: mobileOpen ? 7 : 0 }}
         />
         <motion.span
-          className="block w-6 h-[2px] bg-white"
+          className={`block w-6 h-[2px] ${isLightMode && scrolled ? "bg-dark" : "bg-white"}`}
           animate={{ opacity: mobileOpen ? 0 : 1 }}
         />
         <motion.span
-          className="block w-6 h-[2px] bg-white"
+          className={`block w-6 h-[2px] ${isLightMode && scrolled ? "bg-dark" : "bg-white"}`}
           animate={{ rotate: mobileOpen ? -45 : 0, y: mobileOpen ? -7 : 0 }}
         />
       </button>

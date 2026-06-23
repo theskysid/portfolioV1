@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import FireGlow from "./FireGlow";
 
 /* ── Editable Constants ── */
@@ -8,6 +9,15 @@ const SUBTITLE = "Building Robust Backends & Scalable Applications.";
 const BADGE = "Computer Science Student (AI & ML) · ABES Engineering College";
 
 export default function Hero() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Trigger once on mount
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <section
       id="hero"
@@ -31,8 +41,7 @@ export default function Hero() {
 
         {/* Giant Name */}
         <motion.h1
-          className="text-huge text-white leading-[0.85] mb-6 glitch-hover select-none"
-          data-text={NAME}
+          className="text-huge text-white leading-[0.85] mb-6 select-none flex flex-wrap gap-x-4"
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
@@ -41,7 +50,28 @@ export default function Hero() {
             marginRight: "-0.04em",
           }}
         >
-          {NAME}
+          {!scrolled ? (
+            <motion.span 
+              layoutId="logo" 
+              className="glitch-hover inline-block" 
+              data-text="SIDDHANT"
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              SIDDHANT
+            </motion.span>
+          ) : (
+            <span className="opacity-0 inline-block pointer-events-none">
+              SIDDHANT
+            </span>
+          )}
+          <motion.span 
+            className="glitch-hover inline-block" 
+            data-text="RASTOGI"
+            animate={{ opacity: scrolled ? 0 : 1, y: scrolled ? -20 : 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            RASTOGI
+          </motion.span>
         </motion.h1>
 
         {/* Tagline */}
