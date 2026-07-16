@@ -7,6 +7,7 @@ const NAME = "SIDDHANT RASTOGI";
 const TAGLINE = "Backend Engineer & Full-Stack Developer";
 const SUBTITLE = "Building Robust Backends & Scalable Applications.";
 const BADGE = "Computer Science Student (AI & ML) · ABES Engineering College";
+const RESUME_URL = "https://drive.google.com/file/d/1ahDzUN4isIRaYIpV6RzpSayDVl3Rn9IP/view";
 
 export default function Hero() {
   const [scrolled, setScrolled] = useState(false);
@@ -87,6 +88,31 @@ export default function Hero() {
           <p className="text-base md:text-lg text-white/50 font-[var(--font-body)]">
             {SUBTITLE}
           </p>
+        </motion.div>
+
+        {/* Resume Button */}
+        <motion.div
+          className="mt-8 flex items-center gap-4"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 1.1 }}
+        >
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-accent-orange/10 hover:bg-accent-orange text-accent-orange hover:text-white border border-accent-orange/40 hover:border-accent-orange font-[var(--font-heading)] font-bold tracking-wide transition-all duration-300 shadow-[0_0_20px_rgba(255,122,26,0.15)] hover:shadow-[0_0_30px_rgba(255,122,26,0.4)]"
+          >
+            <span>VIEW RESUME</span>
+            <svg
+              className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
         </motion.div>
 
         {/* Scroll indicator */}
