@@ -69,7 +69,9 @@ export default function Contact() {
           custom={0.6}
         >
           <a
-            href={`mailto:${EMAIL}`}
+            href={`https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block px-10 py-4 rounded-full border-2 border-white text-white font-bold font-[var(--font-heading)] text-lg tracking-wider hover:bg-white hover:text-dark transition-all duration-400"
             id="contact-cta"
           >
