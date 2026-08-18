@@ -14,6 +14,13 @@
   --font-heading: "Space Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   --font-body: "Space Grotesk", sans-serif;
+
+  /* Depth system — one scene depth, one elevation ramp */
+  --perspective-scene: 1200px;
+
+  --shadow-e1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.28);
+  --shadow-e2: 0 4px 12px rgba(0, 0, 0, 0.45), 0 14px 36px rgba(0, 0, 0, 0.34);
+  --shadow-e3: 0 12px 32px rgba(0, 0, 0, 0.5), 0 36px 72px rgba(0, 0, 0, 0.42);
 }
 
 /* ── Base Styles ── */
@@ -114,6 +121,28 @@
     display: inline-block;
   }
 
+  /* ── Depth utilities ── */
+
+  /* Parent that establishes the 3D viewing volume. */
+  .scene {
+    perspective: var(--perspective-scene);
+    perspective-origin: 50% 50%;
+  }
+
+  /* Children keep their own Z instead of being flattened into the parent.
+     Note: never pair with `overflow: hidden` — that forces flattening. */
+  .layer-3d {
+    transform-style: preserve-3d;
+  }
+
+  /* Light comes from above: a bright top edge and a hairline all round.
+     This is what makes a flat panel read as a physical surface. */
+  .edge-light {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.09),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.045);
+  }
+
   /* RGB glitch effect */
   .glitch-hover {
     position: relative;
@@ -155,6 +184,11 @@
     .glitch-hover::before,
     .glitch-hover::after {
       display: none !important;
+    }
+
+    /* Flatten the scene so nothing reads as moving in depth. */
+    .scene {
+      perspective: none;
     }
   }
 }

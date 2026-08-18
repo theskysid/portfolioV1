@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import FireGlow from "./FireGlow";
+import { useTilt } from "../hooks/useTilt";
 
 /* ── Editable Constants ── */
 const LABEL = "WHAT I CAN DO";
@@ -62,8 +63,13 @@ const fadeUp = {
   }),
 };
 
+/* Resting pose — the card sits angled on the desk until you approach it. */
+const REST_POSE = { restX: 6, restY: -14 };
+
 export default function Skills() {
   const [activeIndex, setActiveIndex] = useState(2);
+  const active = SKILL_CATEGORIES[activeIndex];
+  const { ref, rotateX, rotateY, sheen, shadow, handlers } = useTilt(REST_POSE);
 
   return (
     <section id="skills" className="relative bg-dark py-24 md:py-36 overflow-hidden">
@@ -94,34 +100,58 @@ export default function Skills() {
           </motion.div>
 
           {/* Right: mockup card */}
-          <motion.div className="flex items-center justify-center" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0.6}>
+          <motion.div className="scene flex items-center justify-center" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0.6}>
             <motion.div
-              key={activeIndex}
-              className="w-full max-w-md rounded-2xl overflow-hidden bg-[#1a1a1a] border border-white/5 shadow-2xl"
-              initial={{ opacity: 0, y: 20, rotateY: -5 }}
-              animate={{ opacity: 1, y: 0, rotateY: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              whileHover={{ rotate: 1, scale: 1.02 }}
+              ref={ref}
+              {...handlers}
+              className="relative w-full max-w-md layer-3d"
+              style={{ rotateX, rotateY, boxShadow: shadow, borderRadius: "1rem" }}
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              <div className="flex items-center gap-2 px-4 py-2.5 bg-[#222]">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-                <span className="ml-auto text-[10px] font-mono text-white/30">
-                  {SKILL_CATEGORIES[activeIndex].mockupTitle}
-                </span>
-              </div>
-              <div className="p-5 space-y-1.5">
-                {SKILL_CATEGORIES[activeIndex].mockupLines.map((line, j) => (
-                  <p key={j} className="text-xs font-mono text-white/50 leading-relaxed">{line}</p>
-                ))}
-              </div>
-              {/* Details pills */}
-              <div className="px-5 pb-5 flex flex-wrap gap-2">
-                {SKILL_CATEGORIES[activeIndex].details.map((d) => (
-                  <span key={d} className="text-[10px] font-mono tracking-wider uppercase px-2.5 py-1 rounded-full border border-accent-orange/30 text-accent-orange/70">{d}</span>
-                ))}
-              </div>
+              {/* Back slab, sitting behind and slightly proud of the face —
+                  when the card turns, this edge reads as its thickness. */}
+              <div
+                aria-hidden="true"
+                className="absolute -inset-2 rounded-[1.25rem] bg-[#0a0a0a] border border-white/5"
+                style={{ transform: "translateZ(-18px)" }}
+              />
+
+              {/* Specular highlight */}
+              <motion.div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 z-20 rounded-2xl"
+                style={{ background: sheen, z: 2 }}
+              />
+
+              {/* Face — swaps with a turn rather than a fade */}
+              <motion.div
+                key={activeIndex}
+                className="relative rounded-2xl overflow-hidden bg-[#1a1a1a] edge-light"
+                initial={{ opacity: 0, rotateY: -35 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="flex items-center gap-2 px-4 py-2.5 bg-[#222]">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+                  <span className="ml-auto text-[10px] font-mono text-white/30">
+                    {active.mockupTitle}
+                  </span>
+                </div>
+                <div className="p-5 space-y-1.5">
+                  {active.mockupLines.map((line, j) => (
+                    <p key={j} className="text-xs font-mono text-white/50 leading-relaxed">{line}</p>
+                  ))}
+                </div>
+                {/* Details pills */}
+                <div className="px-5 pb-5 flex flex-wrap gap-2">
+                  {active.details.map((d) => (
+                    <span key={d} className="text-[10px] font-mono tracking-wider uppercase px-2.5 py-1 rounded-full border border-accent-orange/30 text-accent-orange/70">{d}</span>
+                  ))}
+                </div>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>

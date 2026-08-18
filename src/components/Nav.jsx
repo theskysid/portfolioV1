@@ -16,22 +16,19 @@ export default function Nav() {
   const [isLightMode, setIsLightMode] = useState(false);
 
   useEffect(() => {
+    // Queried once, not on every scroll tick.
+    const sections = Array.from(document.querySelectorAll("section"));
+    const NAV_CENTER = 40;
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
-      const sections = document.querySelectorAll("section");
-      let currentIsLight = false;
-      const navCenter = 40;
-
-      sections.forEach((sec) => {
+      // The section crossing the nav's centre line decides its colour.
+      const under = sections.find((sec) => {
         const rect = sec.getBoundingClientRect();
-        if (rect.top <= navCenter && rect.bottom >= navCenter) {
-          if (sec.classList.contains("bg-light")) {
-            currentIsLight = true;
-          }
-        }
+        return rect.top <= NAV_CENTER && rect.bottom >= NAV_CENTER;
       });
-      setIsLightMode(currentIsLight);
+      setIsLightMode(under?.classList.contains("bg-light") ?? false);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
