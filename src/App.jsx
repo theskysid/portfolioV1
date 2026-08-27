@@ -12,6 +12,13 @@ import './App.css';
 // Hoisted: a fresh array literal would tear down and rebuild the WebGL context
 // on every render, since it's in the component's effect deps.
 const GRID_MUL = [2, 1];
+
+// One lap of the hue wheel, starting on the site's amber accent. Each stop holds
+// five minutes, then crossfades over thirty seconds — ~27 min per full cycle.
+const TINT_CYCLE = ['#ffa94d', '#7bd88f', '#5ecbe6', '#8b8cf0', '#e07bc4'];
+const TINT_HOLD = 300;
+const TINT_FADE = 30;
+
 const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // The backdrop is `position: fixed`, so a static gradient can only fade toward
@@ -70,6 +77,9 @@ function App() {
           dither={0}
           curvature={0.15}
           tint="#ffa94d"
+          tintCycle={REDUCED_MOTION ? null : TINT_CYCLE}
+          tintHold={TINT_HOLD}
+          tintFade={TINT_FADE}
           mouseReact
           mouseStrength={0.35}
           pageLoadAnimation

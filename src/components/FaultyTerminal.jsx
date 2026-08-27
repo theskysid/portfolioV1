@@ -219,6 +219,37 @@ function hexToRgb(hex) {
   return [((num >> 16) & 255) / 255, ((num >> 8) & 255) / 255, (num & 255) / 255];
 }
 
+// The tint cycle crossfades in HSL, not RGB: an RGB lerp from amber to cyan
+// passes through grey, which reads as the shader dimming rather than shifting.
+function hexToHsl(hex) {
+  const [r, g, b] = hexToRgb(hex);
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  const d = max - min;
+  if (d === 0) return [0, 0, l];
+  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  let h;
+  if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+  else if (max === g) h = ((b - r) / d + 2) / 6;
+  else h = ((r - g) / d + 4) / 6;
+  return [h, s, l];
+}
+
+function hslToRgb(h, s, l) {
+  if (s === 0) return [l, l, l];
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
+  const channel = t => {
+    const u = (t % 1 + 1) % 1;
+    if (u < 1 / 6) return p + (q - p) * 6 * u;
+    if (u < 1 / 2) return q;
+    if (u < 2 / 3) return p + (q - p) * (2 / 3 - u) * 6;
+    return p;
+  };
+  return [channel(h + 1 / 3), channel(h), channel(h - 1 / 3)];
+}
+
 export default function FaultyTerminal({
   scale = 1,
   gridMul = [2, 1],
@@ -233,6 +264,9 @@ export default function FaultyTerminal({
   dither = 0,
   curvature = 0.2,
   tint = '#ffffff',
+  tintCycle = null,
+  tintHold = 300,
+  tintFade = 30,
   mouseReact = true,
   mouseStrength = 0.2,
   dpr = Math.min(window.devicePixelRatio || 1, 2),
@@ -257,6 +291,13 @@ export default function FaultyTerminal({
   useEffect(() => {
     pauseRef.current = pause;
   }, [pause]);
+
+  // Held in a ref rather than the render effect's deps: the tint is a uniform we
+  // can write every frame, so cycling it must never tear down the GL context.
+  const cycleRef = useRef(null);
+  useEffect(() => {
+    cycleRef.current = tintCycle?.length > 1 ? { stops: tintCycle.map(hexToHsl), hold: tintHold, fade: tintFade } : null;
+  }, [tintCycle, tintHold, tintFade]);
 
   const tintVec = useMemo(() => hexToRgb(tint), [tint]);
 
@@ -352,6 +393,31 @@ export default function FaultyTerminal({
         const animationElapsed = t - loadAnimationStartRef.current;
         const progress = Math.min(animationElapsed / animationDuration, 1);
         program.uniforms.uPageLoadProgress.value = progress;
+      }
+
+      // Driven off wall-clock `t`, not iTime, so the colour keeps drifting while
+      // the shader is paused below the fold and has moved on when you scroll back.
+      const cycle = cycleRef.current;
+      if (cycle) {
+        const span = cycle.hold + cycle.fade;
+        const clock = (t * 0.001) % (span * cycle.stops.length);
+        const i = Math.floor(clock / span);
+        const k = Math.min(Math.max((clock - i * span - cycle.hold) / cycle.fade, 0), 1);
+        const eased = k * k * (3 - 2 * k);
+        const from = cycle.stops[i];
+        const to = cycle.stops[(i + 1) % cycle.stops.length];
+        let dh = to[0] - from[0];
+        if (dh > 0.5) dh -= 1;
+        else if (dh < -0.5) dh += 1;
+        const [r, g, b] = hslToRgb(
+          from[0] + dh * eased,
+          from[1] + (to[1] - from[1]) * eased,
+          from[2] + (to[2] - from[2]) * eased
+        );
+        const uTint = program.uniforms.uTint.value;
+        uTint.r = r;
+        uTint.g = g;
+        uTint.b = b;
       }
 
       if (mouseReact) {

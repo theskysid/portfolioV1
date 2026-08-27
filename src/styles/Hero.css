@@ -35,20 +35,20 @@
     margin-bottom: clamp(16px, 2.5svh, 28px);
 }
 
-/* The one place the type gets loud */
+/* The one place the type gets loud. WarpText rasterises this into a texture, so
+   the box only has to be the right size — the type itself is set via props.
+   Height fits two lines at 0.86 with the component's own 22% vertical headroom;
+   the -7% margin cancels the horizontal padding the pointer lens needs, so the
+   glyphs still start on the same edge as the rest of the hero. */
 .hero-name {
     font-family: var(--font-display);
-    font-size: var(--t-hero);
-    font-weight: 800;
-    line-height: 0.86;
-    letter-spacing: -0.05em;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 22px;
-}
-
-.hero-name span:last-child {
-    color: var(--text-dim);
+    height: calc(var(--t-hero) * 2.25);
+    min-height: 0;
+    margin-left: -7%;
+    /* Negative block margins claw back the component's vertical headroom, which
+       is texture padding rather than intended leading. */
+    margin-top: calc(var(--t-hero) * -0.22);
+    margin-bottom: calc(var(--t-hero) * -0.16);
 }
 
 .hero-role {

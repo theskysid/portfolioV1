@@ -1,6 +1,18 @@
+import { useSyncExternalStore } from 'react';
 import { resumeData } from '../data/resume';
 import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
+import WarpText from './WarpText';
 import '../styles/Hero.css';
+
+// The name is rasterised into a WebGL texture, so it can't inherit `color` the
+// way the rest of the page does — the token has to be resolved to a literal and
+// handed over as a prop, and re-resolved whenever the theme attribute flips.
+const subscribeToTheme = onChange => {
+    const observer = new MutationObserver(onChange);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => observer.disconnect();
+};
+const readTextColor = () => getComputedStyle(document.documentElement).getPropertyValue('--text').trim();
 
 const { personalInfo, summary, skills, projects, achievements } = resumeData;
 
@@ -14,7 +26,10 @@ const MANIFEST = [
     { k: 'Tasks', v: `${projects.length} systems shipped · ${achievements.length} milestones` },
 ];
 
-const Hero = () => (
+const Hero = () => {
+    const textColor = useSyncExternalStore(subscribeToTheme, readTextColor);
+
+    return (
     <section id="index" className="hero">
         <div className="shell">
             <p className="hero-eyebrow">
@@ -22,10 +37,23 @@ const Hero = () => (
                 Ghaziabad, IN · UTC+5:30
             </p>
 
-            <h1 className="hero-name">
-                <span>Siddhant</span>
-                <span>Rastogi</span>
-            </h1>
+            <WarpText
+                className="hero-name"
+                text={'Siddhant\nRastogi'}
+                color={textColor}
+                align="left"
+                fontSize="var(--t-hero)"
+                fontWeight={800}
+                letterSpacing="-0.05em"
+                lineHeight={0.86}
+                warpStrength={0.09}
+                warpScale={1.9}
+                speed={0.5}
+                pointerInfluence={0.34}
+                pointerStrength={0.42}
+                refraction={0.022}
+                ripple
+            />
 
             <p className="hero-role">
                 {personalInfo.title} — backend systems in Java and Spring Boot
@@ -69,6 +97,7 @@ const Hero = () => (
             </div>
         </div>
     </section>
-);
+    );
+};
 
 export default Hero;
