@@ -1,26 +1,10 @@
-/* Scrim: the field stays vivid on the right, but text needs to win on the
-   left. Sits inside the hero's own stacking context, above the backdrop. */
-.hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background: linear-gradient(100deg,
-            var(--ink-900) 0%,
-            color-mix(in srgb, var(--ink-900) 92%, transparent) 30%,
-            color-mix(in srgb, var(--ink-900) 55%, transparent) 52%,
-            color-mix(in srgb, var(--ink-900) 15%, transparent) 74%,
-            transparent 100%);
-}
-
 .hero {
     position: relative;
     z-index: 10;
     min-height: 100svh;
     display: flex;
     align-items: center;
-    padding-block: calc(var(--bar-h) + clamp(40px, 7svh, 72px)) clamp(48px, 8svh, 88px);
+    padding-block: calc(var(--bar-h) + clamp(36px, 6svh, 72px)) clamp(40px, 6svh, 80px);
 }
 
 .hero-eyebrow {
@@ -154,16 +138,5 @@
 @media (max-width: 900px) {
     .hero-grid {
         grid-template-columns: 1fr;
-    }
-}
-
-/* Narrow viewports: the 100deg scrim only shields the left third, but the copy
-   now spans the full width — so go vertical and let the field own the top. */
-@media (max-width: 700px) {
-    .hero::before {
-        background: linear-gradient(180deg,
-                color-mix(in srgb, var(--ink-900) 45%, transparent) 0%,
-                color-mix(in srgb, var(--ink-900) 82%, transparent) 32%,
-                var(--ink-900) 62%);
     }
 }

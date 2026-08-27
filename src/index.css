@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
 
 /* ============================================================
    Tokens — near-monochrome warm black, one amber signal colour.
@@ -27,13 +27,23 @@
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* Type scale */
-  --t-micro: 0.6875rem;
-  --t-data: 0.8125rem;
-  --t-body: 1rem;
-  --t-lead: 1.125rem;
+  --t-micro: 0.75rem;
+  --t-data: 0.875rem;
+  --t-body: 1.0625rem;
+  --t-lead: 1.1875rem;
   --t-sub: 1.5rem;
   --t-section: clamp(2rem, 4.5vw, 3.25rem);
   --t-hero: clamp(2.75rem, min(11vw, 13.5svh), 8.5rem);
+
+  /* The field runs at full strength behind every section, so each one lays this
+     over it: solid where the copy starts, clear where the field can breathe. */
+  --scrim: linear-gradient(100deg,
+      var(--ink-900) 0%,
+      color-mix(in srgb, var(--ink-900) 95%, transparent) 40%,
+      color-mix(in srgb, var(--ink-900) 82%, transparent) 64%,
+      color-mix(in srgb, var(--ink-900) 45%, transparent) 84%,
+      transparent 100%);
+  --scrim-lift: color-mix(in srgb, var(--ink-900) 20%, transparent);
 
   --gutter: clamp(20px, 5vw, 56px);
   --bar-h: 44px;
@@ -78,6 +88,8 @@ body {
   color: var(--text);
   line-height: 1.6;
   font-size: var(--t-body);
+  /* 500, not 400: regular weight loses its edges against the field. */
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -133,6 +145,45 @@ img {
   padding-block: clamp(72px, 11vw, 140px);
 }
 
+/* Scrim: the field stays vivid on the right, but text has to win on the left.
+   Every section gets the hero's exact gradient — the backdrop runs at full
+   strength the whole way down, so without this the lower sections read far
+   hotter than the hero. Sits inside each section's own stacking context, so
+   it's above the backdrop and below the content. */
+.hero::before,
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--scrim);
+}
+
+/* The lower sections carry real copy edge to edge, where the hero only has a
+   display line and a glass pane — so they get a little more ground under it. */
+.section::before {
+  background: linear-gradient(var(--scrim-lift), var(--scrim-lift)), var(--scrim);
+}
+
+/* Narrow viewports: the 100deg scrim only shields the left third, but the copy
+   now spans the full width — so go vertical and let the field own the top. */
+@media (max-width: 700px) {
+  .hero::before,
+  .section::before {
+    background: linear-gradient(180deg,
+        color-mix(in srgb, var(--ink-900) 45%, transparent) 0%,
+        color-mix(in srgb, var(--ink-900) 82%, transparent) 32%,
+        var(--ink-900) 62%);
+  }
+
+  /* No room for a clear right-hand edge at this width — the copy spans it all.
+     Near-solid, but not solid: a trace of the field still shows through. */
+  .section::before {
+    background: color-mix(in srgb, var(--ink-900) 94%, transparent);
+  }
+}
+
 /* Section header: mono label, then a hairline that runs to the edge.
    No 01/02 numbering — the sections aren't a sequence, so numbering
    them would be decoration pretending to be structure. */
@@ -175,12 +226,14 @@ img {
 
 /* A pane is the one container shape in the design: hairline box,
    near-opaque so the WebGL backdrop never fights the text. */
+ /* Glass, not a card: the pane is a lens over the field rather than a lid on
+   it. The blur is what makes the copy legible, so the fill stays low. */
 .pane {
-  background: color-mix(in srgb, var(--ink-800) 88%, transparent);
-  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--ink-800) 30%, transparent);
+  border: 1px solid var(--line-strong);
   border-radius: 3px;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
 }
 
 .pane-bar {

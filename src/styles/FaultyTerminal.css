@@ -11,26 +11,10 @@
   position: fixed;
   inset: 0;
   z-index: 0;
-  opacity: var(--backdrop-opacity, 1);
 }
 
-/* Fade the terminal into the page background below the hero, so the reading
-   sections aren't competing with a moving field. */
-.site-backdrop::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(to bottom,
-      transparent 0%,
-      transparent 42%,
-      color-mix(in srgb, var(--ink-900) 55%, transparent) 74%,
-      var(--ink-900) 100%);
-}
-
-/* Light theme: invert only the canvas (dark glyphs on white) and multiply the
-   whole layer into the page. The ::after fade stays un-inverted so it still
-   resolves to the page colour instead of a black band. */
+/* Light theme: invert the canvas (dark glyphs on white) and multiply the layer
+   into the page, so the field reads as printed noise rather than a black slab. */
 [data-theme="light"] .site-backdrop canvas {
   /* invert() alone turns the orange glyphs blue, which fights the cream
      palette. hue-rotate puts them back to burnt orange; the extra saturate and
@@ -39,6 +23,6 @@
 }
 
 [data-theme="light"] .site-backdrop {
-  opacity: calc(var(--backdrop-opacity, 1) * 0.55);
+  opacity: 0.55;
   mix-blend-mode: multiply;
 }
