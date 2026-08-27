@@ -1,93 +1,105 @@
-.about-stacked {
+.about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(32px, 6vw, 88px);
+    align-items: start;
+}
+
+.about-grid>.section-title {
+    position: sticky;
+    top: calc(var(--bar-h) + 40px);
+}
+
+.about-sub {
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 18px;
+}
+
+/* Education timeline: hairline rows, tabular dates */
+.timeline {
+    margin-bottom: 56px;
+    border-top: 1px solid var(--line);
+}
+
+.timeline-row {
+    display: grid;
+    grid-template-columns: 11rem 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.timeline-when,
+.timeline-score {
+    font-family: var(--font-mono);
+    font-size: var(--t-data);
+    color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.timeline-what {
     display: flex;
     flex-direction: column;
-    gap: 60px;
+    gap: 2px;
 }
 
-.education-block,
-.achievements-block,
-.certificates-block {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
+.timeline-what strong {
+    font-weight: 500;
+    color: var(--text);
 }
 
-.timeline {
+.timeline-what span {
+    font-size: var(--t-data);
+    color: var(--text-dim);
+}
+
+.about-split {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 40px;
+}
+
+.marked li {
     position: relative;
-    border-left: 3px solid var(--accent-primary);
-    padding-left: 30px;
+    padding-left: 20px;
+    margin-bottom: 14px;
+    font-size: 0.9375rem;
+    color: var(--text-dim);
 }
 
-.timeline-item {
-    margin-bottom: 40px;
-    position: relative;
-}
-
-.timeline-item::before {
+/* Square marker rather than a bullet — matches the instrument idiom */
+.marked li::before {
     content: '';
     position: absolute;
-    left: -39px;
-    top: 5px;
-    width: 15px;
-    height: 15px;
-    background: var(--accent-primary);
-    border-radius: 50%;
-    border: 3px solid var(--bg-dark);
-    box-shadow: 0 0 10px var(--accent-glow);
-}
-
-.school-name {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-.degree {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    margin-bottom: 5px;
-}
-
-.ed-meta {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-bottom: 5px;
-}
-
-.score {
-    font-weight: 500;
-    color: var(--accent-primary);
-}
-
-.achievements-list {
-    list-style: none;
-    max-width: 800px;
-}
-
-.achievements-list li {
-    margin-bottom: 15px;
-    padding-left: 25px;
-    position: relative;
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
-.achievements-list li::before {
-    content: '🏆';
-    position: absolute;
     left: 0;
-    top: 2px;
-    font-size: 1rem;
+    top: 0.62em;
+    width: 5px;
+    height: 5px;
+    background: var(--signal);
+    opacity: 0.75;
 }
 
-.certificates-block .achievements-list li::before {
-    content: '📜';
-}
+@media (max-width: 900px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
 
-@media (max-width: 768px) {
-    .about-stacked {
-        gap: 40px;
+    .about-grid>.section-title {
+        position: static;
+    }
+
+    .timeline-row {
+        grid-template-columns: 1fr auto;
+    }
+
+    .timeline-when {
+        grid-column: 1 / -1;
     }
 }

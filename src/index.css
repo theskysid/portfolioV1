@@ -1,52 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap');
 
+/* ============================================================
+   Tokens — near-monochrome warm black, one amber signal colour.
+   Amber is reserved for live state only: online dot, scroll
+   progress, caret, hover. Nothing decorative uses it.
+   ============================================================ */
 :root {
-  /* Core Colors - Dark theme (default) */
-  --bg-dark: #030303;
-  --bg-surface: #0a0a0a;
-  --bg-card: rgba(20, 20, 20, 0.6);
+  --ink-900: #08090a;
+  --ink-850: #0b0d0e;
+  --ink-800: #111315;
+  --ink-700: #191c1f;
 
-  /* Text Colors */
-  --text-primary: #ffffff;
-  --text-secondary: #a0a0a0;
-  --text-muted: #525252;
+  --text: #e9e7e4;
+  --text-dim: #8c9096;
+  --text-faint: #575c62;
 
-  /* Accents */
-  --accent-primary: #3b82f6;
-  --accent-glow: rgba(59, 130, 246, 0.5);
-  --accent-purple: #8b5cf6;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.16);
 
-  /* Glassmorphism */
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-blur: 16px;
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --glass-bg: rgba(20, 20, 20, 0.4);
+  --signal: #ffa94d;
+  --signal-dim: rgba(255, 169, 77, 0.35);
+  --signal-wash: rgba(255, 169, 77, 0.08);
 
-  /* Typography */
-  --font-main: 'Inter', sans-serif;
-  --font-display: 'Space Grotesk', sans-serif;
+  --font-display: 'Archivo', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-  /* Transition for theme switch */
-  --theme-transition: 0.35s ease;
+  /* Type scale */
+  --t-micro: 0.6875rem;
+  --t-data: 0.8125rem;
+  --t-body: 1rem;
+  --t-lead: 1.125rem;
+  --t-sub: 1.5rem;
+  --t-section: clamp(2rem, 4.5vw, 3.25rem);
+  --t-hero: clamp(2.75rem, min(11vw, 13.5svh), 8.5rem);
+
+  --gutter: clamp(20px, 5vw, 56px);
+  --bar-h: 44px;
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
 }
 
-/* Light Theme */
 [data-theme="light"] {
-  --bg-dark: #f8f9fb;
-  --bg-surface: #ffffff;
-  --bg-card: rgba(240, 242, 245, 0.8);
+  --ink-900: #f3f0ea;
+  --ink-850: #eeeae3;
+  --ink-800: #ffffff;
+  --ink-700: #f7f4ef;
 
-  --text-primary: #1a1a2e;
-  --text-secondary: #555770;
-  --text-muted: #8e90a6;
+  --text: #14161a;
+  --text-dim: #5c6167;
+  --text-faint: #8d9298;
 
-  --accent-primary: #2563eb;
-  --accent-glow: rgba(37, 99, 235, 0.3);
-  --accent-purple: #7c3aed;
+  --line: rgba(0, 0, 0, 0.11);
+  --line-strong: rgba(0, 0, 0, 0.2);
 
-  --glass-border: rgba(0, 0, 0, 0.06);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.06);
-  --glass-bg: rgba(255, 255, 255, 0.6);
+  --signal: #c2410c;
+  --signal-dim: rgba(194, 65, 12, 0.35);
+  --signal-wash: rgba(194, 65, 12, 0.07);
 }
 
 *,
@@ -59,40 +68,25 @@
 
 html {
   scroll-behavior: smooth;
+  /* Anchored sections must clear the fixed status bar */
+  scroll-padding-top: calc(var(--bar-h) + 24px);
 }
 
 body {
-  font-family: var(--font-main);
-  background-color: var(--bg-dark);
-  color: var(--text-primary);
+  font-family: var(--font-body);
+  background: var(--ink-900);
+  color: var(--text);
   line-height: 1.6;
+  font-size: var(--t-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   min-height: 100vh;
-  transition: background-color var(--theme-transition), color var(--theme-transition);
-}
-
-/* Dark theme background gradient */
-:root:not([data-theme="light"]) body {
-  background-image: radial-gradient(circle at 50% 0%, #1a1a2e 0%, var(--bg-dark) 60%);
-}
-
-/* Light theme background gradient */
-[data-theme="light"] body {
-  background-image: radial-gradient(circle at 50% 0%, #e8edf5 0%, var(--bg-dark) 60%);
-}
-
-::selection {
-  background: var(--accent-primary);
-  color: #fff;
-  text-shadow: none;
 }
 
 a {
   color: inherit;
   text-decoration: none;
-  transition: color 0.3s ease;
 }
 
 ul {
@@ -104,6 +98,7 @@ button {
   border: none;
   background: none;
   font-family: inherit;
+  color: inherit;
 }
 
 img {
@@ -111,44 +106,245 @@ img {
   display: block;
 }
 
-/* Utilities */
-.glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  transition: background var(--theme-transition), border-color var(--theme-transition), box-shadow var(--theme-transition);
+::selection {
+  background: var(--signal);
+  color: var(--ink-900);
 }
 
-.container {
-  max-width: 1400px;
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   Layout primitives
+   ============================================================ */
+.shell {
+  width: 100%;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding-inline: var(--gutter);
 }
 
 .section {
-  padding: 100px 0;
+  position: relative;
+  z-index: 10;
+  padding-block: clamp(72px, 11vw, 140px);
 }
 
-/* Scrollbar - Dark */
-::-webkit-scrollbar {
+/* Section header: mono label, then a hairline that runs to the edge.
+   No 01/02 numbering — the sections aren't a sequence, so numbering
+   them would be decoration pretending to be structure. */
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: clamp(32px, 5vw, 56px);
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.section-head::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--t-section);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  max-width: 20ch;
+}
+
+/* ============================================================
+   Shared components
+   ============================================================ */
+
+/* A pane is the one container shape in the design: hairline box,
+   near-opaque so the WebGL backdrop never fights the text. */
+.pane {
+  background: color-mix(in srgb, var(--ink-800) 88%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.pane-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  color: var(--text-faint);
+}
+
+.chip {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  color: var(--text-dim);
+  white-space: nowrap;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.dot {
   width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 0 3px var(--signal-wash);
+  flex-shrink: 0;
+}
+
+/* Key/value readout rows — the core data idiom of the page */
+.readout {
+  font-family: var(--font-mono);
+  font-size: var(--t-data);
+}
+
+.readout-row {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  gap: 16px;
+  padding: 7px 0;
+}
+
+.readout-key {
+  color: var(--text-faint);
+}
+
+.readout-val {
+  color: var(--text-dim);
+}
+
+.readout-val strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  .readout-row {
+    grid-template-columns: 5rem 1fr;
+    gap: 10px;
+  }
+}
+
+/* ============================================================
+   Scrollbar
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-dark);
+  background: var(--ink-900);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: var(--line-strong);
+  border: 3px solid var(--ink-900);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-primary);
+  background: var(--signal-dim);
 }
 
-[data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: #ccc;
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   Motion — two moments, no library.
+
+   1. A load sequence in the hero.
+   2. Scroll reveals below it, driven by the native `view()` timeline
+      rather than an observer or an animation package. Browsers without
+      scroll-driven animation support simply render the content as-is.
+   ============================================================ */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+  .hero-eyebrow,
+  .hero-name,
+  .hero-role,
+  .hero-brief,
+  .hero-manifest {
+    animation: rise 0.7s var(--ease) both;
+  }
+
+  .hero-name {
+    animation-delay: 0.06s;
+  }
+
+  .hero-role {
+    animation-delay: 0.12s;
+  }
+
+  .hero-brief {
+    animation-delay: 0.18s;
+  }
+
+  .hero-manifest {
+    animation-delay: 0.26s;
+  }
+
+  @supports (animation-timeline: view()) {
+
+    .section-head,
+    .section-title,
+    .project,
+    .timeline-row,
+    .spec-row,
+    .contact-status,
+    .contact-email,
+    .contact-links,
+    .about-split>div {
+      animation: rise linear both;
+      animation-timeline: view();
+      /* Must complete within the `entry` phase. A range ending in `cover`
+         never finishes for the last section — the page runs out of scroll
+         first and the element stays permanently half-faded. */
+      animation-range: entry 5% entry 85%;
+    }
+  }
 }

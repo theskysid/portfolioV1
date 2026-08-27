@@ -1,0 +1,37 @@
+/* Mirrors the top bar so the page closes the way it opened */
+.foot {
+    position: relative;
+    z-index: 10;
+    border-top: 1px solid var(--line);
+    background: var(--ink-900);
+}
+
+.foot-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 18px var(--gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    color: var(--text-faint);
+}
+
+.foot-inner button {
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--text-faint);
+    transition: color 0.2s var(--ease);
+}
+
+.foot-inner button:hover {
+    color: var(--text);
+}
+
+@media (max-width: 600px) {
+    .foot-mid {
+        display: none;
+    }
+}

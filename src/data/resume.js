@@ -1,4 +1,3 @@
-import { Github, Linkedin, Mail, FileText } from 'lucide-react';
 
 export const resumeData = {
     personalInfo: {

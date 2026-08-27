@@ -1,14 +1,26 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sun, Moon, FileText } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Sun, Moon, Menu, X } from 'lucide-react';
 import '../styles/Header.css';
 
+const NAV = [
+    { id: 'about', label: 'about' },
+    { id: 'work', label: 'work' },
+    { id: 'stack', label: 'stack' },
+    { id: 'contact', label: 'contact' },
+];
+
+// Siddhant is in UP, India — show his local time, not the visitor's.
+const clockFmt = new Intl.DateTimeFormat('en-GB', {
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+    hour12: false, timeZone: 'Asia/Kolkata',
+});
+
 const Header = () => {
-    const [scrolled, setScrolled] = useState(false);
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [theme, setTheme] = useState(() => {
-        return localStorage.getItem('theme') || 'light';
-    });
+    const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+    const [active, setActive] = useState('index');
+    const [time, setTime] = useState(() => clockFmt.format(new Date()));
+    const [menuOpen, setMenuOpen] = useState(false);
+    const progressRef = useRef(null);
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -16,109 +28,107 @@ const Header = () => {
     }, [theme]);
 
     useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        const id = setInterval(() => setTime(clockFmt.format(new Date())), 1000);
+        return () => clearInterval(id);
     }, []);
 
-    const scrollToSection = (id) => {
-        setMobileMenuOpen(false);
-        const element = document.getElementById(id);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
+    // Scroll progress, written straight to a CSS var so it never re-renders React.
+    useEffect(() => {
+        const onScroll = () => {
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+            progressRef.current?.style.setProperty('--progress', pct);
+        };
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+        };
+    }, []);
 
-    const toggleTheme = () => {
-        setTheme(prev => prev === 'dark' ? 'light' : 'dark');
-    };
+    // Which section is on screen — drives both the nav highlight and the
+    // path readout in the bar.
+    useEffect(() => {
+        const sections = ['index', ...NAV.map(n => n.id)]
+            .map(id => document.getElementById(id))
+            .filter(Boolean);
 
-    const navItems = [
-        { id: 'about', label: 'About' },
-        { id: 'projects', label: 'Work' },
-        { id: 'skills', label: 'Skills' },
-        { id: 'contact', label: 'Contact' },
-    ];
+        const io = new IntersectionObserver(
+            entries => {
+                const visible = entries
+                    .filter(e => e.isIntersecting)
+                    .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+                if (visible) setActive(visible.target.id);
+            },
+            { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
+        );
+        sections.forEach(s => io.observe(s));
+        return () => io.disconnect();
+    }, []);
+
+    const go = id => {
+        setMenuOpen(false);
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    };
 
     return (
-        <motion.header
-            className={`header ${scrolled ? 'scrolled' : ''}`}
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-            <div className="container header-content glass-panel">
-                <div className="logo" onClick={() => scrollToSection('hero')}>
-                    SID
-                </div>
+        <header className="bar">
+            <div className="bar-inner">
+                <button className="bar-id" onClick={() => go('index')}>
+                    <span className="dot" aria-hidden="true" />
+                    <span className="bar-id-name">sid</span>
+                    <span className="bar-id-path">/{active}</span>
+                </button>
 
-                <nav className="desktop-nav">
-                    <ul>
-                        {navItems.map((item) => (
-                            <li key={item.id}>
-                                <button onClick={() => scrollToSection(item.id)}>
-                                    {item.label}
-                                </button>
-                            </li>
-                        ))}
-                        <li>
-                            <a href="https://bit.ly/sidrastogi" target="_blank" rel="noopener noreferrer" className="nav-resume-link">
-                                <FileText size={16} /> Resume
-                            </a>
-                        </li>
-                    </ul>
+                <nav className="bar-nav" aria-label="Sections">
+                    {NAV.map(item => (
+                        <button
+                            key={item.id}
+                            className={`bar-link ${active === item.id ? 'is-active' : ''}`}
+                            aria-current={active === item.id ? 'true' : undefined}
+                            onClick={() => go(item.id)}
+                        >
+                            {item.label}
+                        </button>
+                    ))}
+                    <a className="bar-link" href="https://bit.ly/sidrastogi" target="_blank" rel="noopener noreferrer">
+                        résumé<span className="bar-ext" aria-hidden="true">↗</span>
+                    </a>
                 </nav>
 
-                <div className="header-actions">
-                    <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
-                        <AnimatePresence mode="wait" initial={false}>
-                            {theme === 'dark' ? (
-                                <motion.div key="sun" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
-                                    <Sun size={20} />
-                                </motion.div>
-                            ) : (
-                                <motion.div key="moon" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
-                                    <Moon size={20} />
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                <div className="bar-right">
+                    <time className="bar-clock" aria-hidden="true">{time} IST</time>
+                    <button
+                        className="bar-icon"
+                        onClick={() => setTheme(t => (t === 'dark' ? 'light' : 'dark'))}
+                        aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+                    >
+                        {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
                     </button>
-
-                    <div className="mobile-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-                        {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                    </div>
+                    <button
+                        className="bar-icon bar-burger"
+                        onClick={() => setMenuOpen(o => !o)}
+                        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                        aria-expanded={menuOpen}
+                    >
+                        {menuOpen ? <X size={16} /> : <Menu size={16} />}
+                    </button>
                 </div>
             </div>
 
-            <AnimatePresence>
-                {mobileMenuOpen && (
-                    <motion.div
-                        className="mobile-menu glass-panel"
-                        initial={{ opacity: 0, scale: 0.95, y: -20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        <ul>
-                            {navItems.map((item) => (
-                                <li key={item.id}>
-                                    <button onClick={() => scrollToSection(item.id)}>
-                                        {item.label}
-                                    </button>
-                                </li>
-                            ))}
-                            <li>
-                                <a href="https://bit.ly/sidrastogi" target="_blank" rel="noopener noreferrer" className="nav-resume-link">
-                                    <FileText size={16} /> Resume
-                                </a>
-                            </li>
-                        </ul>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </motion.header>
+            <div className="bar-progress" ref={progressRef} aria-hidden="true" />
+
+            {menuOpen && (
+                <nav className="bar-sheet" aria-label="Sections">
+                    {NAV.map(item => (
+                        <button key={item.id} onClick={() => go(item.id)}>{item.label}</button>
+                    ))}
+                    <a href="https://bit.ly/sidrastogi" target="_blank" rel="noopener noreferrer">résumé ↗</a>
+                </nav>
+            )}
+        </header>
     );
 };
 

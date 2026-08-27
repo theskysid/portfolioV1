@@ -1,54 +1,35 @@
 import { resumeData } from '../data/resume';
-import { motion } from 'framer-motion';
 import '../styles/Skills.css';
 
-const SkillTag = ({ skill }) => (
-    <div className="skill-pill glass-panel">
-        {skill}
-    </div>
-);
+// Spec-sheet rows, not a marquee — a recruiter scans this, they don't watch it.
+const GROUPS = [
+    { label: 'Languages', items: resumeData.skills.languages },
+    { label: 'Backend', items: resumeData.skills.backend },
+    { label: 'Frontend', items: resumeData.skills.frontend },
+    { label: 'Databases', items: resumeData.skills.databases },
+    { label: 'Cloud / DevOps', items: resumeData.skills.cloudDevOps },
+    { label: 'Tools', items: resumeData.skills.tools },
+];
 
-const MarqueeRow = ({ skills, direction = 'normal', speed = '40s' }) => {
-    return (
-        <div className="marquee-container" style={{ '--speed': speed, '--direction': direction }}>
-            <div className="marquee-content">
-                {skills.map((skill, i) => <SkillTag key={i} skill={skill} />)}
-                {/* Duplicate for seamless loop */}
-                {skills.map((skill, i) => <SkillTag key={`dup-${i}`} skill={skill} />)}
+const Skills = () => (
+    <section id="stack" className="section">
+        <div className="shell">
+            <div className="section-head">
+                <span className="section-label">Stack</span>
             </div>
-            <div className="marquee-content" aria-hidden="true">
-                {skills.map((skill, i) => <SkillTag key={`dup2-${i}`} skill={skill} />)}
-                {skills.map((skill, i) => <SkillTag key={`dup3-${i}`} skill={skill} />)}
+
+            <div className="spec">
+                {GROUPS.map(group => (
+                    <div className="spec-row" key={group.label}>
+                        <span className="spec-label">{group.label}</span>
+                        <div className="spec-items">
+                            {group.items.map(item => <span className="chip" key={item}>{item}</span>)}
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
-    );
-};
-
-const Skills = () => {
-    const row1 = [...resumeData.skills.languages, ...resumeData.skills.frontend];
-    const row2 = [...resumeData.skills.backend, ...resumeData.skills.databases];
-    const row3 = [...resumeData.skills.tools, ...resumeData.skills.cloudDevOps];
-
-    return (
-        <section id="skills" className="section skills-section">
-            <div className="container full-width-overflow">
-                <motion.h2
-                    className="section-title text-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                >
-                    Technical Arsenal
-                </motion.h2>
-
-                <div className="skills-wrapper">
-                    <MarqueeRow skills={row1} speed="40s" direction="normal" />
-                    <MarqueeRow skills={row2} speed="50s" direction="reverse" />
-                    <MarqueeRow skills={row3} speed="45s" direction="normal" />
-                </div>
-            </div>
-        </section>
-    );
-};
+    </section>
+);
 
 export default Skills;

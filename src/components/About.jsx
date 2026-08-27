@@ -1,49 +1,50 @@
 import { resumeData } from '../data/resume';
 import '../styles/About.css';
 
-const About = () => {
-    return (
-        <section id="about" className="section about-section">
-            <div className="container">
-                <div className="about-stacked">
-                    <div className="education-block">
-                        <h2 className="section-title">Education</h2>
-                        <div className="timeline">
-                            {resumeData.education.map((edu, index) => (
-                                <div key={index} className="timeline-item">
-                                    <h3 className="school-name">{edu.school}</h3>
-                                    <p className="degree">{edu.degree}</p>
-                                    <div className="ed-meta">
-                                        <span>{edu.duration}</span>
-                                        <span>{edu.location}</span>
-                                    </div>
-                                    <p className="score">{edu.score}</p>
-                                </div>
-                            ))}
+const About = () => (
+    <section id="about" className="section">
+        <div className="shell">
+            <div className="section-head">
+                <span className="section-label">About</span>
+            </div>
+
+            <div className="about-grid">
+                <h2 className="section-title">Backend first, with the fundamentals to back it up.</h2>
+
+                <div className="about-body">
+                    {/* Education is genuinely a sequence, so it gets a timeline. */}
+                    <h3 className="about-sub">Education</h3>
+                    <ul className="timeline">
+                        {resumeData.education.map(edu => (
+                            <li className="timeline-row" key={`${edu.school}-${edu.degree}`}>
+                                <span className="timeline-when">{edu.duration}</span>
+                                <span className="timeline-what">
+                                    <strong>{edu.school}</strong>
+                                    <span>{edu.degree}</span>
+                                </span>
+                                <span className="timeline-score">{edu.score}</span>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <div className="about-split">
+                        <div>
+                            <h3 className="about-sub">Achievements</h3>
+                            <ul className="marked">
+                                {resumeData.achievements.map(item => <li key={item}>{item}</li>)}
+                            </ul>
                         </div>
-                    </div>
-
-                    <div className="achievements-block">
-                        <h2 className="section-title">Achievements</h2>
-                        <ul className="achievements-list">
-                            {resumeData.achievements.map((item, index) => (
-                                <li key={index}>{item}</li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="certificates-block">
-                        <h2 className="section-title">Certificates</h2>
-                        <ul className="achievements-list">
-                            {resumeData.certificates.map((item, index) => (
-                                <li key={index}>{item}</li>
-                            ))}
-                        </ul>
+                        <div>
+                            <h3 className="about-sub">Certificates</h3>
+                            <ul className="marked">
+                                {resumeData.certificates.map(item => <li key={item}>{item}</li>)}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-    );
-};
+        </div>
+    </section>
+);
 
 export default About;
